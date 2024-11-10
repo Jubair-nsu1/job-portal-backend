@@ -31,12 +31,12 @@ connectDB();
 // Use CORS middleware to allow requests from the frontend
 app.use(
     cors({
-      //origin: ["http://localhost:3000"],
-      methods: ["GET", "POST","PUT","PATCH","DELETE","HEAD"],
+      origin: ["https://bylc-career.netlify.app"], // add your frontend's origin here
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
       credentials: true,
-      optionSuccessStatus:200,
+      optionsSuccessStatus: 200,
     })
-);  
+);
 
 app.use(cookieParser());
 app.use(express.json());
