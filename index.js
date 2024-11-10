@@ -29,14 +29,15 @@ connectDB();
 // seedDB();
 
 // Use CORS middleware to allow requests from the frontend
-app.use(
-    cors({
-      origin: ["https://bylc-career.netlify.app"], // add your frontend's origin here
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
-      credentials: true,
-      optionsSuccessStatus: 200,
-    })
-);
+app.use(cors());
+// app.use(
+//     cors({
+//       origin: ["https://bylc-career.netlify.app"], // add your frontend's origin here
+//       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
+//       credentials: true,
+//       optionsSuccessStatus: 200,
+//     })
+// );
 
 app.use(cookieParser());
 app.use(express.json());
