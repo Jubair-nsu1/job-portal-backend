@@ -25,8 +25,8 @@ const connectDB = require("./config/db");
 connectDB();
 
 //SeedDB (Admin Data)
-const seedDB = require("./config/seed")
-seedDB();
+// const seedDB = require("./config/seed")
+// seedDB();
 
 // Use CORS middleware to allow requests from the frontend
 app.use(
