@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("*/files", express.static("files")); //static makes files accessible from anywhere
-app.use('/static', express.static(path.join(__dirname, 'static')));
+//app.use('/static', express.static(path.join(__dirname, 'static')));
 
 //Call all Routes
 app.use("/api", jobRoutes); //All the routes defined in auth.js will be prefixed with /api/auth
