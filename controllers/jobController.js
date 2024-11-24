@@ -1,7 +1,7 @@
 const JobData = require('../models/jobData.model')
 
 const jobPost = async (req, res) => {
-    console.log(req.body)
+//    console.log(req.body)
 
     try{
         await JobData.create({
@@ -47,7 +47,7 @@ const viewJobsById = async (req, res) => {
         res.status(200).json(result);
     } 
     catch (err) {
-        console.log(err);
+    //    console.log(err);
         res.status(500).json(err);
     }
 }
@@ -55,7 +55,7 @@ const viewJobsById = async (req, res) => {
 const updateJob = async (req, res) => {
     try {
         const result = await JobData.findByIdAndUpdate(req.params.id, {$set: req.body})
-        console.log(result);
+  //      console.log(result);
         res.status(200);
         //res.json({message: "Data successfully updated"});
     } 
@@ -67,14 +67,19 @@ const updateJob = async (req, res) => {
 
 const deleteJob = async (req, res) => {
     try {
-        await JobData.findOneAndDelete(req.params.id);
-        res.status(200)
-        //res.status(200).json({ message: "Student deleted successfully" });
+        // Ensure req.params.id is used correctly
+        const deletedJob = await JobData.findOneAndDelete({ _id: req.params.id });
+
+        if (!deletedJob) {
+            return res.status(404).json({ message: "Job not found" });
+        }
+
+        res.status(200).json({ message: "Job successfully deleted" });
     } 
     catch (error) {
         res.status(400).json({ message: error.message });
     }   
-}
+};
 
 const countTotalJobs = async (req, res) => {
     try {

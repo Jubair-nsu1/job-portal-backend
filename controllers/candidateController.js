@@ -4,7 +4,7 @@ const CandidateData = require('../models/candidateData.model')
 
 
 const postCandidateData = async (req, res) => {
-        console.log(req.body)
+    //    console.log(req.body)
 
     try{
         await CandidateData.create({
@@ -40,14 +40,14 @@ const postCandidateData = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASSWORD
+                user: 'support.it@bylc.org',
+                pass: 'hjcewzjnretiafyk'
             }
         });
 
 		//Sending mail to user
         const mailtoUser = {
-            from: process.env.EMAIL,
+            from: 'support.it@bylc.org',
             to: req.body.email,
             subject: 'Your application to '+req.body.position+' at BYLC' ,
             html: '<p>Dear '+req.body.fullname+',</p> <p>Thank you for applying to '+req.body.position+', '+req.body.department+' at Bangladesh Youth Leadership Center.</p> <a>The Recruitment Department has received your application and will be reviewing it shortly. We appreciate the time and effort you have taken to reach out to us, and we look forward to exploring the possibility of having you join our team.</a><br> <br> <p>Regards,</p> <a style="font-weight:bold">HR Department</a><br><a style="font-style: italic ; font-size:12px ; font-color:lightgrey">Bangladesh Youth Leadership Center</a><br><a style="font-style: italic ; font-size:12px ; font-color:lightgrey">Medona Tower (Level 12), 28 Mohakhali C/A, Dhaka 1213.</a>'
@@ -55,10 +55,8 @@ const postCandidateData = async (req, res) => {
 		
 		transporter.sendMail(mailtoUser, (error, info) => {
             if (error) {
-                //console.log("Error" + error)
 				return;
             } else {
-                //console.log("Successfully Email sent:" + info.response);
        			transporter.close();
                 res.status(201).json({status:201,info})
             }
@@ -68,7 +66,7 @@ const postCandidateData = async (req, res) => {
     }
     catch(error){
         res.json({ status: 'error', error: 'Cant Process' })
-        console.log(error)
+    //   console.log(error)
     }
 }
 
