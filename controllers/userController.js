@@ -4,35 +4,37 @@ const AdminData = require('../models/admin.model')
 
 
 const loginUser = async (req, res) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
-    // Check for user email
-    const user = await AdminData.findOne({ email })
-    
-    if (!user) {
-      return { status: 'error', error: 'Invalid login' }
+    try {
+        // Check for user email
+        const user = await AdminData.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ status: 'error', error: 'Email not found' });
+        }
+
+        // Check for valid password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ status: 'error', error: 'Incorrect password' });
+        }
+
+        // Generate JWT token
+        const token = generateToken(user._id, user.email);
+        return res.status(200).json({ status: 'ok', user: token, name: user.fullname });
+
+    } catch (err) {
+        console.error('Login error:', err);
+        return res.status(500).json({ status: 'error', error: 'Server error. Please try again later.' });
     }
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      user.password
-    )
+};
 
-    if (isPasswordValid) {
-      const token = generateToken(user._id,user.email)    
-      return res.json({ status: 'ok', user: token, name:user.fullname })
-    } 
-    else {
-        return res.json({ status: 'error', user: false })
-    }
-
-}
-  
 // Generate JWT
-const generateToken = (id,email) => {
-    return jwt.sign({ id,email }, process.env.JWT_SECRET, {
-      expiresIn: '1d',
-    })
-}
+const generateToken = (id, email) => {
+    return jwt.sign({ id, email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+};
   
 module.exports = {
     loginUser,
